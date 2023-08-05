@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Defines the member schema"""
 
-from base_model import BaseMode, Base
+from base_model import BaseModel, Base
 from sqlalchemy import Column, String, Boolean
 
 
