@@ -2,7 +2,7 @@
 """Defines the project schema"""
 
 from sqlalchemy import Column, String, ForeignKey
-from base_model import BaseModel, Base
+from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 
 

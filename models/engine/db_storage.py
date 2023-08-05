@@ -18,15 +18,16 @@ class DBStorage:
         pwd = getenv("BASECAMP_PWD")
         db = getenv("BASECAMP_DB")
 
-        self.__engine = create_engine(f"mysql+mysqldb://{user}:{pwd}\
-                                      @{host}/{db}", pool_pre_ping=True)
+        self.__engine = create_engine(
+            f"mysql+mysqldb://{user}:{pwd}@{host}/{db}",
+            pool_pre_ping=True)
 
     def reload(self) -> None:
         """
             Creates all database table if not
             exists and establishes a new session
         """
-        from base_model import Base
+        from models.base_model import Base
         allModels = self.allModels()
 
         Base.metadata.create_all(self.__engine)
@@ -36,9 +37,9 @@ class DBStorage:
 
     def allModels(self) -> Dict:
         """Returns a dictionary of all app models"""
-        from user import User
-        from project import Project
-        from member import Member
+        from models.user import User
+        from models.project import Project
+        from models.member import Member
 
         return {
             "User": User,
