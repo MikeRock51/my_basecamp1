@@ -2,7 +2,7 @@
 """Defines the member schema"""
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column, String, Boolean, ForeignKey
 
 
 class Member(BaseModel, Base):
@@ -10,5 +10,5 @@ class Member(BaseModel, Base):
     __tablename__ = "members"
 
     email = Column(String(120), nullable=False)
-    projectId = Column(String(60), nullable=False)
+    projectId = Column(String(60), ForeignKey("projects.id"), nullable=False)
     isAdmin = Column(Boolean, nullable=False, default=False)

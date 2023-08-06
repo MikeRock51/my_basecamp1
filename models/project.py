@@ -11,6 +11,6 @@ class Project(BaseModel, Base):
     __tablename__ = "projects"
 
     name = Column(String(120), nullable=False)
-    Description = Column(String(1024), nullable=False)
+    description = Column(String(1024), nullable=False)
     creatorId = Column(String(60), ForeignKey("users.id"), nullable=False)
     members = relationship("Member", cascade="all, delete, delete-orphan")
