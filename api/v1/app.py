@@ -6,7 +6,6 @@ from api.v1.views import app_views
 from flask_cors import CORS
 from models import storage
 
-
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
@@ -15,7 +14,7 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 @app.errorhandler(404)
 def fourOfFour(err):
     """Returns 404 error"""
-    return make_response({'Error': 'Resource not found'}, 404)
+    return make_response(jsonify({'Error': 'Resource not found'}), 404)
 
 
 @app.teardown_appcontext
@@ -25,4 +24,4 @@ def tearDown(self):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=6000, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=8000, threaded=True)
