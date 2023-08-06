@@ -49,8 +49,9 @@ def updateProject(project_id):
         if field in editableFields:
             setattr(project, field, value)
     
-    # if members in projectData:
-
+    if "member" in projectData:
+        newMember = Member(**projectData['member'])
+        project.members.append(newMember)
 
     project.save()
 
@@ -81,3 +82,15 @@ def createProject(user_id):
     project.save()
 
     return make_response(jsonify(project.toDict()), 201)
+
+@app_views.route('/projects/<project_id>', methods=['DELETE'], strict_slashes=False)
+def deleteProject(project_id):
+    """Deletes the project with project_id from storage"""
+    project = storage.get(Project, project_id)
+
+    if not project:
+        abort(404)
+
+    storage.delete(project)
+
+    return make_response(jsonify({}), 200)

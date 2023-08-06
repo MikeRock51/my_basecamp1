@@ -63,4 +63,10 @@ class BaseModel():
                 members.append(member.toDict())
             instance['members'] = members
 
+        if type(self).__name__ == 'User':
+            projects = []
+            for project in self.projects:
+                projects.append(project.toDict())
+            instance['projects'] = projects
+
         return instance
