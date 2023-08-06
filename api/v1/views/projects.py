@@ -5,6 +5,7 @@ from models import storage
 from api.v1.views import app_views
 from flask import request, make_response, abort, jsonify
 from models.project import Project
+from models.user import User
 
 
 @app_views.route('/projects', strict_slashes=False)
@@ -50,3 +51,29 @@ def updateProject(project_id):
     project.save()
 
     return make_response(jsonify(project.toDict()), 200)
+
+@app_views.route('/projects/<user_id>', methods=['POST'], strict_slashes=False)
+def createProject(user_id):
+    """Creates a new project"""
+    projectData = request.get_json()
+
+    if not projectData:
+        return make_response(jsonify({"Error": "Not a valid JSON"}), 400)
+    
+    user = storage.get(User, user_id)
+
+    if not user:
+        abort(404)
+
+    requiredFields = ["name", "description"]
+
+    for field in requiredFields:
+        if field not in projectData:
+            return make_response(
+                jsonify({"Error": f"{field} is missing"}), 400)
+
+    projectData['creatorId'] = user_id
+    project = Project(**projectData)
+    project.save()
+
+    return make_response(jsonify(project.toDict()), 201)
