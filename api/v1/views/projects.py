@@ -27,3 +27,26 @@ def projectById(project_id):
         abort(404)
 
     return make_response(jsonify(project.toDict()))
+
+@app_views.route('/projects/<project_id>', methods=['PUT'], strict_slashes=False)
+def updateProject(project_id):
+    """Updates the project with project_id"""
+    projectData = request.get_json()
+
+    if not projectData:
+        return make_response(jsonify({"Error": "Not a valid JSON"}), 400)
+    
+    project = storage.get(Project, project_id)
+
+    if not project:
+        abort(404)
+
+    editableFields = ["name", "description"]
+
+    for field, value in projectData.items():
+        if field in editableFields:
+            setattr(project, field, value)
+    
+    project.save()
+
+    return make_response(jsonify(project.toDict()), 200)
