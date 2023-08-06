@@ -6,6 +6,7 @@ from api.v1.views import app_views
 from flask import request, make_response, abort, jsonify
 from models.project import Project
 from models.user import User
+from models.member import Member
 
 
 @app_views.route('/projects', strict_slashes=False)
@@ -48,6 +49,9 @@ def updateProject(project_id):
         if field in editableFields:
             setattr(project, field, value)
     
+    # if members in projectData:
+
+
     project.save()
 
     return make_response(jsonify(project.toDict()), 200)
