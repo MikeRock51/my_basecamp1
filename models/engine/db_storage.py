@@ -96,7 +96,7 @@ class DBStorage:
         
         instances = self.all(cls)
 
-        for instance in instances:
+        for instance in instances.values():
             if instance.id == id:
                 return instance
 

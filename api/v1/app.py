@@ -14,7 +14,7 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 @app.errorhandler(404)
 def fourOfFour(err):
     """Returns 404 error"""
-    return make_response(jsonify({'Error': 'Resource not found'}), 404)
+    return make_response(jsonify({'Error': 'Resource Not Found'}), 404)
 
 
 @app.teardown_appcontext
