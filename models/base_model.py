@@ -6,6 +6,8 @@ from sqlalchemy import Column, String, DateTime
 from uuid import uuid4
 from datetime import datetime
 from models import storage
+from typing import Dict
+from copy import copy
 
 
 Base = declarative_base()
@@ -44,3 +46,15 @@ class BaseModel():
     def delete(self) -> None:
         """Deletes the current instance from storage"""
         storage.delete(self)
+
+    def toDict(self) -> Dict:
+        """Returns a dictionary representation of the current instance"""
+        instance = copy(self.__dict__)
+        instance['__class__'] = type(self).__name__
+        instance['createdAt'] = instance['createdAt'].isoformat()
+        instance['updatedAt'] = instance['updatedAt'].isoformat()
+
+        if instance.get('_sa_instance_state'):
+            del instance['_sa_instance_state']
+
+        return instance
