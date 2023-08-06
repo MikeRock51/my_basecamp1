@@ -4,7 +4,7 @@
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from typing import Dict, List
+from typing import Dict
 
 
 class DBStorage:
@@ -47,7 +47,7 @@ class DBStorage:
             "Member": Member
         }
     
-    def all(self, obj=None) -> List:
+    def all(self, obj=None) -> Dict:
         """
             Retrieves all instances of obj or all entries from
             database if obj is None
@@ -67,5 +67,35 @@ class DBStorage:
                 for result in query:
                     key = f"{result.__class__.__name__}.{result.id}"
                     objects[key] = result
-                    
+
         return objects
+
+    def new(self, obj) -> None:
+        """Adds the given object to the current session"""
+        self.__session.add(obj)
+
+    def save(self) -> None:
+        """Commits the state of the current session to database"""
+        self.__session.commit()
+
+    def delete(self, obj=None) -> None:
+        """Deletes obj from the current session and database"""
+        if obj:
+            self.__session.delete(obj)
+            self.save()
+
+    def get(self, cls, id: str):
+        """
+            Retrieves the cls instance with the given id
+            or None if no instance was found
+        """
+        models = self.allModels()
+
+        if cls not in models.values():
+            return None
+        
+        instances = self.all(cls)
+
+        for instance in instances:
+            if instance.id == id:
+                return instance
