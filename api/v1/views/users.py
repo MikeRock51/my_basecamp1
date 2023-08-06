@@ -60,7 +60,6 @@ def createUser():
 
     return make_response(jsonify(user.toDict()), 201)
 
-
 @app_views.route("/users/auth", methods=["POST"], strict_slashes=False)
 def authenticateUser():
     """Authenticates user credentials"""
@@ -89,3 +88,38 @@ def authenticateUser():
         return make_response(jsonify(user), 200)
     
     return make_response(jsonify({"Error": "Incorrect password"}), 401)
+
+@app_views.route('/users/<user_id>', methods=["PUT"], strict_slashes=False)
+def updateUser(user_id):
+    """Updates the user with user_id"""
+    userData = request.get_json()
+
+    if not userData:
+        return make_response(jsonify({"Error": "Not a JSON"}), 400)
+    
+    user = storage.get(User, user_id)
+
+    if not user:
+        abort(404)
+
+    updateableFields = ["name", "email"]
+
+    for key, value in userData.items():
+        if key in updateableFields:
+            setattr(user, key, value)
+
+    user.save()
+
+    return make_response(jsonify(user.toDict()), 200)
+
+@app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
+def deleteUser(user_id):
+    """Deletes the user with user_id"""
+    user = storage.get(User, user_id)
+
+    if not user:
+        abort(404)
+
+    storage.delete(user)
+
+    return make_response(jsonify({}), 200)
