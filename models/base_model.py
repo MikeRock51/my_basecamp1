@@ -57,4 +57,10 @@ class BaseModel():
         if instance.get('_sa_instance_state'):
             del instance['_sa_instance_state']
 
+        if type(self).__name__ == 'Project':
+            members = []
+            for member in self.members:
+                members.append(member.toDict())
+            instance['members'] = members
+
         return instance
