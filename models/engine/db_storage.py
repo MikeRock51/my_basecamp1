@@ -4,7 +4,7 @@
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from typing import Dict
+from typing import Dict, List
 
 
 class DBStorage:
@@ -46,3 +46,26 @@ class DBStorage:
             "Project": Project,
             "Member": Member
         }
+    
+    def all(self, obj=None) -> List:
+        """
+            Retrieves all instances of obj or all entries from
+            database if obj is None
+        """
+        objects = {}
+        
+        if obj:
+            query = self.__session.query(obj).all()
+
+            for result in query:
+                key = f"{result.__class__.__name__}.{result.id}"
+                objects[key] = result
+        else:
+            models = self.allModels()
+            for model in models.values():
+                query = self.__session.query(model).all()
+                for result in query:
+                    key = f"{result.__class__.__name__}.{result.id}"
+                    objects[key] = result
+                    
+        return objects
