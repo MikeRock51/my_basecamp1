@@ -5,6 +5,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, String, DateTime
 from uuid import uuid4
 from datetime import datetime
+from models import storage
 
 
 Base = declarative_base()
@@ -33,3 +34,13 @@ class BaseModel():
         """Returns a string representation of an instance"""
         return ("[{}] ({}) {}".format
                 (type(self).__name__, self.id, self.__dict__))
+
+    def save(self) -> None:
+        """Saves the current instance to storage"""
+        self.updatedAt = datetime.now()
+        storage.new(self)
+        storage.save()
+
+    def delete(self) -> None:
+        """Deletes the current instance from storage"""
+        storage.delete(self)
