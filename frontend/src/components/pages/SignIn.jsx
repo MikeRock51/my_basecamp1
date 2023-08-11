@@ -20,11 +20,12 @@ function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted with data:", formData);
+    // console.log("Form submitted with data:", formData);
+    setError("");
   };
 
   return (
-    <Container className="py-5">
+    <Container className="p-5">
       <Form onSubmit={handleSubmit}>
         <h2 className="mb-4">Sign In</h2>
         {error && <Alert variant="danger">{error}</Alert>}

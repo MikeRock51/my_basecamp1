@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -9,8 +10,11 @@ function SignUp() {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
 
   const [error, setError] = useState("");
+  const [pending, setPending] = useState(true);
+  const [success, setSuccess] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,15 +42,26 @@ function SignUp() {
       return;
     }
     setError("");
-    console.log("Form submitted with data:", formData);
+    // console.log("Form submitted with data:", formData);
+    delete formData.confirmPassword
+    axios.post('http://13.48.5.194:8000/api/v1/users', formData)
+    .then((response) => {
+      setSuccess("Account created successfully");
+      setPending(false);
+      navigate('/sign-in');
+    })
+    .catch((error) => {
+      setError(error.error)
+    })
   };
 
   return (
-    <Container className="py-5">
+    <Container className="p-5">
       <Form onSubmit={handleSubmit}>
         <h2 className="mb-4">Sign Up</h2>
 
         {error && <Alert variant="danger">{error}</Alert>}
+        {success && <Alert variant="success">{success}</Alert>}
 
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
