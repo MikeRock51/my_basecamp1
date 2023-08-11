@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Container, Form, Button, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
+
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,16 +22,33 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
-    formData.password !== formData.confirmPassword && console.log("Password Mismatch")
-    // You can add your form submission logic here
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+    setError("");
+    console.log("Form submitted with data:", formData);
   };
 
   return (
     <Container className="py-5">
       <Form onSubmit={handleSubmit}>
         <h2 className="mb-4">Sign Up</h2>
-        <Form.Group className="mb-3" controlId="lastName">
+
+        {error && <Alert variant="danger">{error}</Alert>}
+
+        <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
@@ -58,7 +78,7 @@ function SignUp() {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className="mb-3" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
@@ -72,8 +92,11 @@ function SignUp() {
           Sign Up
         </Button>
       </Form>
+      <span className="mt-3">
+        Already have an account? <Link to="/sign-in">Sign in</Link>
+      </span>
     </Container>
   );
-};
+}
 
 export default SignUp;

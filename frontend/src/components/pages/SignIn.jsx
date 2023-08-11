@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Container, Form, Button, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function SignIn() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
+
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -17,14 +20,14 @@ function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
-    // You can add your sign-in logic here
+    console.log("Form submitted with data:", formData);
   };
 
   return (
     <Container className="py-5">
       <Form onSubmit={handleSubmit}>
         <h2 className="mb-4">Sign In</h2>
+        {error && <Alert variant="danger">{error}</Alert>}
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
@@ -49,8 +52,11 @@ function SignIn() {
           Sign In
         </Button>
       </Form>
+      <span className="mt-3">
+        Don't have an account <Link to="/sign-up">Sign up</Link>
+      </span>
     </Container>
   );
-};
+}
 
 export default SignIn;
