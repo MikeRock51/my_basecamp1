@@ -14,7 +14,6 @@ function SignUp() {
   const location = useLocation();
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [pending, setPending] = useState(false);
 
   const handleInputChange = (e) => {
@@ -25,7 +24,7 @@ function SignUp() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (
@@ -51,7 +50,7 @@ function SignUp() {
         "http://13.48.5.194:8000/api/v1/users",
         formData
       );
-      setSuccess("Account created successfully");
+      console.log("Account created successfully");
       setError("");
       setPending(false);
       setFormData({
@@ -67,7 +66,6 @@ function SignUp() {
       });
     } catch (error) {
       setError(error.response?.data?.message || "An error occurred");
-      setSuccess("");
       setPending(false);
     }
   };
@@ -78,7 +76,6 @@ function SignUp() {
         <h2 className="mb-4">Sign Up</h2>
 
         {error && <Alert variant="danger">{error}</Alert>}
-        {success && <Alert variant="success">{success}</Alert>}
         {pending && <Alert variant="info">Creating your account...</Alert>}
 
         <Form.Group className="mb-3" controlId="name">
