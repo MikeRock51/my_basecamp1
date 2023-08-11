@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [error, setError] = useState("");
 
@@ -22,6 +25,7 @@ function SignIn() {
     e.preventDefault();
     // console.log("Form submitted with data:", formData);
     setError("");
+    console.log(location.state.prev);
   };
 
   return (
@@ -29,6 +33,7 @@ function SignIn() {
       <Form onSubmit={handleSubmit}>
         <h2 className="mb-4">Sign In</h2>
         {error && <Alert variant="danger">{error}</Alert>}
+        {location.state && location.state.prev && <Alert variant="success">Account created successfully</Alert>}
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -11,10 +11,11 @@ function SignUp() {
     confirmPassword: "",
   });
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [error, setError] = useState("");
-  const [pending, setPending] = useState(true);
   const [success, setSuccess] = useState("");
+  const [pending, setPending] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +25,7 @@ function SignUp() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -41,18 +42,34 @@ function SignUp() {
       setError("Passwords don't match");
       return;
     }
+
     setError("");
-    // console.log("Form submitted with data:", formData);
-    delete formData.confirmPassword
-    axios.post('http://13.48.5.194:8000/api/v1/users', formData)
-    .then((response) => {
+    setPending(true);
+
+    try {
+      await axios.post(
+        "http://13.48.5.194:8000/api/v1/users",
+        formData
+      );
       setSuccess("Account created successfully");
+      setError("");
       setPending(false);
-      navigate('/sign-in');
-    })
-    .catch((error) => {
-      setError(error.error)
-    })
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/sign-in", {
+        state: {
+          prev: location.pathname,
+        },
+      });
+    } catch (error) {
+      setError(error.response?.data?.message || "An error occurred");
+      setSuccess("");
+      setPending(false);
+    }
   };
 
   return (
@@ -62,6 +79,7 @@ function SignUp() {
 
         {error && <Alert variant="danger">{error}</Alert>}
         {success && <Alert variant="success">{success}</Alert>}
+        {pending && <Alert variant="info">Creating your account...</Alert>}
 
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
@@ -104,7 +122,7 @@ function SignUp() {
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Sign Up
+          {pending ? "Signing up..." : "Sign Up"}
         </Button>
       </Form>
       <span className="mt-3">
