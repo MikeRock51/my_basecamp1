@@ -33,7 +33,7 @@ function SignIn() {
         formData
       );
       sessionStorage.userData = JSON.stringify(userData.data);
-      navigate("/", {
+      navigate("/projects/dashboard", {
         state: {
           prev: location.pathname,
         },
