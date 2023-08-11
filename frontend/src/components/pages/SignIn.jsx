@@ -28,16 +28,24 @@ function SignIn() {
     setError("");
     setPending(true);
     try {
-      const userData = await axios.get("http://13.48.5.194:8000/api/v1/users");
-      sessionStorage.userData = userData;
+      const userData = await axios.post(
+        "http://13.48.5.194:8000/api/v1/users/auth",
+        formData
+      );
+      sessionStorage.userData = JSON.stringify(userData.data);
       navigate("/", {
         state: {
           prev: location.pathname,
         },
       });
       setPending(false);
-    } catch (error) {
-      setError(error.response?.data?.message || "An error occurred");
+    } catch (err) {
+      const error = err.response;
+      if (error.status === 404) {
+        setError("User does not exist");
+      } else {
+        setError(error.data?.Error || "An error occurred");
+      }
       setPending(false);
     }
   }

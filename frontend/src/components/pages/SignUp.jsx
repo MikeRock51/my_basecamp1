@@ -65,7 +65,7 @@ function SignUp() {
         },
       });
     } catch (error) {
-      setError(error.response?.data?.message || "An error occurred");
+      setError(error.response?.data?.Error || "An error occurred");
       setPending(false);
     }
   };
