@@ -105,7 +105,7 @@ def fetchSharedProjects(user_email):
 
     for project in projects.values():
         for member in project.members:
-            if user_email == memberi.email:
+            if user_email == member.email:
                 sharedProjects.append(project.toDict())
 
     return make_response(jsonify(sharedProjects), 200)
