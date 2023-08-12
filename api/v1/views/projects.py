@@ -98,7 +98,7 @@ def fetchUserProjects(user_id):
 
 
 @app_views.route('/users/projects/shared/<user_email>', strict_slashes=False)
-def fetchUserProjects(user_email):
+def fetchSharedProjects(user_email):
     """Returns all projects where user with user_email is a member""" 
     projects = storage.all(Project)
     sharedrojects = []
