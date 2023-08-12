@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa";
 
 function ProjectCard(props) {
   const navigate = useNavigate();
+  
   return (
     <Card className="project-card mb-3">
       <div className="project-card-header">
@@ -20,7 +21,7 @@ function ProjectCard(props) {
             <strong>Members:</strong> {props.members.join(", ")}
           </p>
         )}
-        <button className="d-flex btn btn-link justify-content-between align-items-center">
+        {props.admin === true && <button className="d-flex btn btn-link justify-content-between align-items-center">
           <FaEdit
             size={20}
             className="edit-icon"
@@ -30,7 +31,7 @@ function ProjectCard(props) {
               });
             }}
           />
-        </button>
+        </button>}
       </Card.Body>
     </Card>
   );

@@ -59,7 +59,7 @@ function CreateProject() {
   return (
     <Container className="py-5">
       <Form onSubmit={handleSubmit}>
-        <h2 className="mb-4">Create Project</h2>
+        <h2 className="mb-4 text-primary">Create Project</h2>
         {error && <Alert variant="danger">{error}</Alert>}
         {pending && <Alert variant="info">Creating your project...</Alert>}
         <Form.Group className="mb-3" controlId="name">
@@ -70,6 +70,7 @@ function CreateProject() {
             value={formData.name}
             onChange={handleInputChange}
             required
+            style={{ border: "1.5px solid" }}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="description">
@@ -81,9 +82,10 @@ function CreateProject() {
             value={formData.description}
             onChange={handleInputChange}
             required
+            style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary w-25" type="submit">
           Create
         </Button>
       </Form>

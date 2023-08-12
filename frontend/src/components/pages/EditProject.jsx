@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Switch from "react-switch";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
+import axios from "axios";
 
 function EditProject() {
   const location = useLocation();
+  const navigate = useNavigate();
   const projectData = location.state.projectData;
 
   const [formData, setFormData] = useState({
@@ -23,7 +25,7 @@ function EditProject() {
       ...prevData,
       [name]: value,
     }));
-  };
+  }
 
   function handleToggleChange(checked) {
     setFormData((prevData) => ({
@@ -33,25 +35,40 @@ function EditProject() {
         isAdmin: checked,
       },
     }));
-  };
+  }
 
-  const handleSubmit = (e) => {
+  async function handleUpdate(e) {
     e.preventDefault();
-    console.log("Form submitted with data:", formData);
-  };
+    try {
+      await axios.put(
+        `http://13.48.5.194:8000/api/v1/projects/${projectData.id}`,
+        formData
+      );
+      navigate('/projects/dashboard', {
+        state: {
+            prev: location.pathname,
+            action: "Update"
+        }
+      });
+    } catch (error) {
+        console.log(error.response?.data?.Error || "An error occurred!");
+    }
+  }
 
   return (
     <Container className="py-5 position-relative">
-      <div className="position-absolute top-0 end-0 m-3 text-danger">
+      <div
+        className="position-absolute top-0 end-0 m-3 text-danger"
+        style={{ cursor: "pointer" }}
+      >
         <FaTrash
           size={20}
           // onClick={handleDelete}
-          style={{ cursor: "pointer" }}
         />
         <p>Delete Project</p>
       </div>
       <h2 className="mb-4 text-primary">Edit Project</h2>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleUpdate}>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
