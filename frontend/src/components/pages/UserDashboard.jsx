@@ -32,18 +32,20 @@ function UserDashboard() {
       const createdByMe = await axios.get(
         `http://13.48.5.194:8000/api/v1/users/projects/${currentUser.id}`
       );
-      // const sharedWithMe = await
+      const sharedWithMe = await axios.get(
+        `http://13.48.5.194:8000/api/v1/users/projects/shared/${currentUser.email}`
+      );
       setUserProjects(createdByMe.data);
+      setSharedProjects(sharedWithMe.data)
     } catch (err) {
-      const error = err.response;
-      console.log(error.data?.Error || "An error occurred");
+      console.log("An error occurred while fetching projects");
     }
   }
 
   const navigate = useNavigate();
   useEffect(() => {
     fetchProjects();
-    setAllProjects([...userProjects, ...sharedProjects])
+    setAllProjects([...userProjects, ...sharedProjects]);
   }, [userProjects, sharedProjects]);
 
   return (
@@ -53,10 +55,13 @@ function UserDashboard() {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ml-auto ms-auto pe-4">
-            <Nav.Link onClick={() => {
-              navigate("/projects/new")
-            }}
-            >Add Project</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/projects/new");
+              }}
+            >
+              Add Project
+            </Nav.Link>
             <Nav.Link>Edit Profile</Nav.Link>
             <Nav.Link
               onClick={() => {
