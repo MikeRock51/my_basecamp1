@@ -11,14 +11,12 @@ import Home from "./components/pages/Home";
 import CreateProject from "./components/pages/CreateProject";
 import UserDashboard from "./components/pages/UserDashboard";
 import EditProject from "./components/pages/EditProject";
+import EditUser from "./components/pages/EditUser";
 
 function App() {
   return (
     <Router>
       <div className="App position-relative pb-5 pt-2 px-2">
-        {/* <div className="mb-5 pb-4">
-          <div className="nav-container container-fluid rounded pe-0 fixed-top"></div>
-        </div> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-up" element={<SignUp />} />
@@ -26,6 +24,7 @@ function App() {
           <Route path="/projects/new" element={<CreateProject />} />
           <Route path="/projects/dashboard" element={<UserDashboard />} />
           <Route path="/projects/edit/:id" element={<EditProject />} />
+          <Route path="/users/edit/:id" element={<EditUser />} />
         </Routes>
       </div>
     </Router>

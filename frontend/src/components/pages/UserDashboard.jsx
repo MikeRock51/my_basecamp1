@@ -45,7 +45,15 @@ function UserDashboard() {
             >
               Add Project
             </Nav.Link>
-            <Nav.Link>Edit Profile</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate(`/users/edit/${currentUser.id}`, {
+                  state: { userData: currentUser },
+                });
+              }}
+            >
+              Edit Profile
+            </Nav.Link>
             <Nav.Link
               onClick={() => {
                 sessionStorage.clear();
@@ -85,7 +93,10 @@ function UserDashboard() {
                       author={project.author}
                       id={project.id}
                       members={project.members.map((member) => member.email)}
-                      admin={project.creatorId === currentUser.id || project.members.map((member) => member.isAdmin)[0]}
+                      admin={
+                        project.creatorId === currentUser.id ||
+                        project.members.map((member) => member.isAdmin)[0]
+                      }
                     />
                   ))}
               </Tab.Pane>
