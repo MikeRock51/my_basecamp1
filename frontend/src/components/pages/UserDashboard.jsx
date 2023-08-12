@@ -5,23 +5,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function UserDashboard() {
-  // const projects = [
-  //   {
-  //     id: 1,
-  //     name: "Project 1",
-  //     description: "Description of Project 1",
-  //     author: "amoo@email.com",
-  //     members: ["User B", "User C"],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Project 2",
-  //     description: "Description of Project 2",
-  //     author: "mike@me.com",
-  //     members: ["User A", "User C"],
-  //   },
-  // ];
-
   const [userProjects, setUserProjects] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
   const [sharedProjects, setSharedProjects] = useState([]);
@@ -36,7 +19,7 @@ function UserDashboard() {
         `http://13.48.5.194:8000/api/v1/users/projects/shared/${currentUser.email}`
       );
       setUserProjects(createdByMe.data);
-      setSharedProjects(sharedWithMe.data)
+      setSharedProjects(sharedWithMe.data);
     } catch (err) {
       console.log("An error occurred while fetching projects");
     }
@@ -51,9 +34,9 @@ function UserDashboard() {
   return (
     <Container fluid>
       <Navbar className="m-0 p-3" bg="primary-subtle" expand="lg">
-        <Navbar.Brand className="px-4">User Dashboard</Navbar.Brand>
+        <Navbar.Brand className="px-4">Project Dashboard</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />
-        <Navbar.Collapse id="navbar-nav">
+        <Navbar.Collapse id="navbar-nav" className="my-1">
           <Nav className="ml-auto ms-auto pe-4">
             <Nav.Link
               onClick={() => {
@@ -100,6 +83,7 @@ function UserDashboard() {
                       name={project.name}
                       description={project.description}
                       author={project.author}
+                      id={project.id}
                       members={project.members.map((member) => member.email)}
                     />
                   ))}
@@ -117,7 +101,16 @@ function UserDashboard() {
                   ))}
               </Tab.Pane>
               <Tab.Pane eventKey="sharedWithMe">
-                <h3>Shared with Me Content</h3>
+                {sharedProjects &&
+                  sharedProjects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      name={project.name}
+                      description={project.description}
+                      author={project.author}
+                      members={project.members.map((member) => member.email)}
+                    />
+                  ))}
               </Tab.Pane>
             </Tab.Content>
           </Col>
