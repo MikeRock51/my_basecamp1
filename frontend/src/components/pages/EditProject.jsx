@@ -86,8 +86,8 @@ function EditProject() {
         <p>Delete Project</p>
       </div>
       <h2 className="mb-4 text-primary">Edit Project</h2>
-      <Form onSubmit={handleUpdate}>
-        <Form.Group controlId="name">
+      <Form className="w-75 mx-auto" onSubmit={handleUpdate}>
+        <Form.Group className="text-start" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
@@ -98,7 +98,7 @@ function EditProject() {
             style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Form.Group controlId="description">
+        <Form.Group className="text-start mt-2" controlId="description">
           <Form.Label>Description</Form.Label>
           <Form.Control
             as="textarea"
@@ -110,7 +110,7 @@ function EditProject() {
             style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Form.Group controlId="member">
+        <Form.Group className="text-start mt-2" controlId="member">
           <Form.Label>Add Member (email)</Form.Label>
           <Row>
             <Col xs={8}>
@@ -145,7 +145,7 @@ function EditProject() {
             </Col>
           </Row>
         </Form.Group>
-        <Button variant="primary" type="submit" className="mt-3">
+        <Button variant="primary" type="submit" className="mt-3 w-50">
           Update Project
         </Button>
       </Form>

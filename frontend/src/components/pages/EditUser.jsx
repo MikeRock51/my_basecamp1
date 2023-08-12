@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import Switch from "react-switch";
+import { Container, Form, Button} from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";

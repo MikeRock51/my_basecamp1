@@ -58,7 +58,7 @@ function CreateProject() {
 
   return (
     <Container className="py-5">
-      <Form onSubmit={handleSubmit}>
+      <Form className="w-75 mx-auto" onSubmit={handleSubmit}>
         <h2 className="mb-4 text-primary">Create Project</h2>
         {error && <Alert variant="danger">{error}</Alert>}
         {pending && <Alert variant="info">Creating your project...</Alert>}
@@ -85,7 +85,7 @@ function CreateProject() {
             style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Button variant="primary w-25" type="submit">
+        <Button className="w-50" variant="primary w-25" type="submit">
           Create
         </Button>
       </Form>

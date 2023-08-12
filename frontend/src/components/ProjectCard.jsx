@@ -18,7 +18,7 @@ function ProjectCard(props) {
         <p className="project-description">{props.description}</p>
         {props.members.length > 0 && (
           <p className="project-members">
-            <strong>Members:</strong> {props.members.join(", ")}
+            <strong className="text-primary">Members:</strong> {props.members.join(", ")}
           </p>
         )}
         {props.admin === true && <button className="d-flex btn btn-link justify-content-between align-items-center">
