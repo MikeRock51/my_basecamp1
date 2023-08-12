@@ -107,7 +107,7 @@ def fetchSharedProjects(user_email):
         if user_email in project.members:
             sharedProjects.append(project.toDict())
 
-    return make_response(jsonify(userProjects), 200)
+    return make_response(jsonify(sharedProjects), 200)
 
 
 @app_views.route('/projects/<project_id>', methods=['DELETE'], strict_slashes=False)
