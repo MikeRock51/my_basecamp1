@@ -104,7 +104,7 @@ def fetchSharedProjects(user_email):
     sharedProjects = []
 
     for project in projects.values():
-        for member in project['members']:
+        for member in project.members:
             if user_email == member['email']:
                 sharedProjects.append(project.toDict())
 
