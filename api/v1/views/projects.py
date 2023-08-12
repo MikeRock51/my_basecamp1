@@ -101,7 +101,7 @@ def fetchUserProjects(user_id):
 def fetchSharedProjects(user_email):
     """Returns all projects where user with user_email is a member""" 
     projects = storage.all(Project)
-    sharedrojects = []
+    sharedProjects = []
 
     for project in projects.values():
         if user_email in project.members:
