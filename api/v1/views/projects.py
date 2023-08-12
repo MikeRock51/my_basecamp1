@@ -97,6 +97,19 @@ def fetchUserProjects(user_id):
     return make_response(jsonify(userProjects), 200)
 
 
+@app_views.route('/users/projects/shared/<user_email>', strict_slashes=False)
+def fetchUserProjects(user_email):
+    """Returns all projects where user with user_email is a member""" 
+    projects = storage.all(Project)
+    sharedrojects = []
+
+    for project in projects.values():
+        if user_email in project.members:
+            sharedProjects.append(project.toDict())
+
+    return make_response(jsonify(userProjects), 200)
+
+
 @app_views.route('/projects/<project_id>', methods=['DELETE'], strict_slashes=False)
 def deleteProject(project_id):
     """Deletes the project with project_id from storage"""

@@ -21,7 +21,7 @@ function UserDashboard() {
   //     members: ["User A", "User C"],
   //   },
   // ];
-  
+
   const [userProjects, setUserProjects] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
   const [sharedProjects, setSharedProjects] = useState([]);
@@ -34,8 +34,6 @@ function UserDashboard() {
       );
       // const sharedWithMe = await
       setUserProjects(createdByMe.data);
-      setAllProjects([...userProjects, ...sharedProjects])
-      console.log(createdByMe.data);
     } catch (err) {
       const error = err.response;
       console.log(error.data?.Error || "An error occurred");
@@ -44,8 +42,9 @@ function UserDashboard() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    fetchProjects(); 
-  }, []);
+    fetchProjects();
+    setAllProjects([...userProjects, ...sharedProjects])
+  }, [userProjects, sharedProjects]);
 
   return (
     <Container fluid>
@@ -54,7 +53,10 @@ function UserDashboard() {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ml-auto ms-auto pe-4">
-            <Nav.Link>Add Project</Nav.Link>
+            <Nav.Link onClick={() => {
+              navigate("/projects/new")
+            }}
+            >Add Project</Nav.Link>
             <Nav.Link>Edit Profile</Nav.Link>
             <Nav.Link
               onClick={() => {

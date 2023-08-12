@@ -27,7 +27,7 @@ function CreateProject() {
     e.preventDefault();
     setPending(true);
     const userID = JSON.parse(sessionStorage.userData).id;
-    // console.log(userID);
+    formData.author = JSON.parse(sessionStorage.userData).email;
     try {
       await axios.post(
         `http://13.48.5.194:8000/api/v1/projects/${userID}`,
@@ -40,7 +40,7 @@ function CreateProject() {
         name: "",
         description: "",
       });
-      navigate("/", {
+      navigate("/projects/dashboard", {
         state: {
           prev: location.pathname,
         },
