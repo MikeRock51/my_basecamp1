@@ -14,3 +14,4 @@ class Project(BaseModel, Base):
     description = Column(String(1024), nullable=False)
     creatorId = Column(String(60), ForeignKey("users.id"), nullable=False)
     members = relationship("Member", cascade="all, delete, delete-orphan")
+    author = Column(String(120), nullable=False)

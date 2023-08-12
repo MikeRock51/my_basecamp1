@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Tab, Row, Col } from "react-bootstrap";
 import ProjectCard from "../ProjectCard";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function UserDashboard() {
   // const projects = [
@@ -20,16 +21,31 @@ function UserDashboard() {
   //     members: ["User A", "User C"],
   //   },
   // ];
+  
+  const [userProjects, setUserProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
+  const [sharedProjects, setSharedProjects] = useState([]);
+  const currentUser = JSON.parse(sessionStorage.userData);
+
+  async function fetchProjects() {
+    try {
+      const createdByMe = await axios.get(
+        `http://13.48.5.194:8000/api/v1/users/projects/${currentUser.id}`
+      );
+      // const sharedWithMe = await
+      setUserProjects(createdByMe.data);
+      setAllProjects([...userProjects, ...sharedProjects])
+      console.log(createdByMe.data);
+    } catch (err) {
+      const error = err.response;
+      console.log(error.data?.Error || "An error occurred");
+    }
+  }
 
   const navigate = useNavigate();
-
-  const userProjects = [
-      ...JSON.parse(sessionStorage.userData).projects
-  ];
-  const allProjects = [
-    ...userProjects
-  ]
-  const [sharedProjects, setSharedProjects] = useState([]);
+  useEffect(() => {
+    fetchProjects(); 
+  }, []);
 
   return (
     <Container fluid>
@@ -40,11 +56,14 @@ function UserDashboard() {
           <Nav className="ml-auto ms-auto pe-4">
             <Nav.Link>Add Project</Nav.Link>
             <Nav.Link>Edit Profile</Nav.Link>
-            <Nav.Link onClick={() => {
-              sessionStorage.clear();
-              navigate('/sign-in');
-            }}
-            >Log Out</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                sessionStorage.clear();
+                navigate("/sign-in");
+              }}
+            >
+              Log Out
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -67,30 +86,28 @@ function UserDashboard() {
           <Col md={10}>
             <Tab.Content>
               <Tab.Pane eventKey="allProjects">
-                {allProjects && allProjects.map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    name={project.name}
-                    description={project.description}
-                    author={project.author}
-                    members={project.members.map((member) => (
-                      member.email
-                ))}
-                  />
-                ))}
+                {allProjects &&
+                  allProjects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      name={project.name}
+                      description={project.description}
+                      author={project.author}
+                      members={project.members.map((member) => member.email)}
+                    />
+                  ))}
               </Tab.Pane>
               <Tab.Pane eventKey="createdByMe">
-                {userProjects && userProjects.map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    name={project.name}
-                    description={project.description}
-                    author={project.author}
-                    members={project.members.map((member) => (
-                      member.email
-                ))}
-                  />
-                ))}
+                {userProjects &&
+                  userProjects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      name={project.name}
+                      description={project.description}
+                      author={project.author}
+                      members={project.members.map((member) => member.email)}
+                    />
+                  ))}
               </Tab.Pane>
               <Tab.Pane eventKey="sharedWithMe">
                 <h3>Shared with Me Content</h3>
