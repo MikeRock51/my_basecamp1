@@ -85,7 +85,7 @@ function UserDashboard() {
                       author={project.author}
                       id={project.id}
                       members={project.members.map((member) => member.email)}
-                      admin={(project.creatorId === currentUser.id && true) || project.members.map((member) => member.isAdmin) === true ? true : false}
+                      admin={project.creatorId === currentUser.id || project.members.map((member) => member.isAdmin)[0]}
                     />
                   ))}
               </Tab.Pane>
@@ -111,7 +111,7 @@ function UserDashboard() {
                       description={project.description}
                       author={project.author}
                       members={project.members.map((member) => member.email)}
-                      admin={project.members.map((member) => member.isAdmin)}
+                      admin={project.members.map((member) => member.isAdmin)[0]}
                     />
                   ))}
               </Tab.Pane>
