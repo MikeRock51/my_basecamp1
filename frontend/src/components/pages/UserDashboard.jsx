@@ -3,23 +3,29 @@ import { Container, Nav, Navbar, Tab, Row, Col } from "react-bootstrap";
 import ProjectCard from "../ProjectCard";
 
 function UserDashboard() {
+  // const projects = [
+  //   {
+  //     id: 1,
+  //     name: "Project 1",
+  //     description: "Description of Project 1",
+  //     author: "amoo@email.com",
+  //     members: ["User B", "User C"],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Project 2",
+  //     description: "Description of Project 2",
+  //     author: "mike@me.com",
+  //     members: ["User A", "User C"],
+  //   },
+  // ];
+
   const projects = [
-    {
-      id: 1,
-      name: "Project 1",
-      description: "Description of Project 1",
-      author: "amoo@email.com",
-      members: ["User B", "User C"],
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      description: "Description of Project 2",
-      author: "mike@me.com",
-      members: ["User A", "User C"],
-    },
+      ...JSON.parse(sessionStorage.userData).projects
   ];
-  
+
+  console.log(projects);
+
   return (
     <Container fluid>
       <Navbar className="m-0 p-3" bg="primary-subtle" expand="lg">
@@ -52,8 +58,7 @@ function UserDashboard() {
           <Col md={10}>
             <Tab.Content>
               <Tab.Pane eventKey="allProjects">
-                
-                {projects.map((project) => (
+                {projects && projects.map((project) => (
                   <ProjectCard
                     key={project.id}
                     name={project.name}

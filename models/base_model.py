@@ -66,7 +66,9 @@ class BaseModel():
         if type(self).__name__ == 'User':
             projects = []
             for project in self.projects:
-                projects.append(project.toDict())
+                project = project.toDict()
+                project['author'] = self.email
+                projects.append(project)
             instance['projects'] = projects
 
         return instance
