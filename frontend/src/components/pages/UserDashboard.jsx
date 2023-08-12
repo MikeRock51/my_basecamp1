@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Nav, Navbar, Tab, Row, Col } from "react-bootstrap";
 import ProjectCard from "../ProjectCard";
+import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
   // const projects = [
@@ -20,11 +21,15 @@ function UserDashboard() {
   //   },
   // ];
 
-  const projects = [
+  const navigate = useNavigate();
+
+  const userProjects = [
       ...JSON.parse(sessionStorage.userData).projects
   ];
-
-  console.log(projects);
+  const allProjects = [
+    ...userProjects
+  ]
+  const [sharedProjects, setSharedProjects] = useState([]);
 
   return (
     <Container fluid>
@@ -35,7 +40,11 @@ function UserDashboard() {
           <Nav className="ml-auto ms-auto pe-4">
             <Nav.Link>Add Project</Nav.Link>
             <Nav.Link>Edit Profile</Nav.Link>
-            <Nav.Link>Log Out</Nav.Link>
+            <Nav.Link onClick={() => {
+              sessionStorage.clear();
+              navigate('/sign-in');
+            }}
+            >Log Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -58,18 +67,30 @@ function UserDashboard() {
           <Col md={10}>
             <Tab.Content>
               <Tab.Pane eventKey="allProjects">
-                {projects && projects.map((project) => (
+                {allProjects && allProjects.map((project) => (
                   <ProjectCard
                     key={project.id}
                     name={project.name}
                     description={project.description}
                     author={project.author}
-                    members={project.members}
+                    members={project.members.map((member) => (
+                      member.email
+                ))}
                   />
                 ))}
               </Tab.Pane>
               <Tab.Pane eventKey="createdByMe">
-                <h3>Created by Me Content</h3>
+                {userProjects && userProjects.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    name={project.name}
+                    description={project.description}
+                    author={project.author}
+                    members={project.members.map((member) => (
+                      member.email
+                ))}
+                  />
+                ))}
               </Tab.Pane>
               <Tab.Pane eventKey="sharedWithMe">
                 <h3>Shared with Me Content</h3>

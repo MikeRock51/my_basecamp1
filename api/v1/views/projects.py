@@ -83,6 +83,20 @@ def createProject(user_id):
 
     return make_response(jsonify(project.toDict()), 201)
 
+
+@app_views.route('/users/projects/<user_id>', strict_slashes=False)
+def fetchUserProjects(user_id):
+    """Returns all projects created by the user with user_id""" 
+    projects = storage.all(Project)
+    userProjects = []
+
+    for project in projects.values():
+        if project.creatorId == user_id:
+            userProjects.append(project)
+
+    return make_response(jsonify(userProjects), 200)
+
+
 @app_views.route('/projects/<project_id>', methods=['DELETE'], strict_slashes=False)
 def deleteProject(project_id):
     """Deletes the project with project_id from storage"""

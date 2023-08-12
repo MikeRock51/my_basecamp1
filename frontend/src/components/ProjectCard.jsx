@@ -10,9 +10,9 @@ function ProjectCard(props) {
       </div>
       <Card.Body>
         <p className="project-description">{props.description}</p>
-        <p className="project-members">
-          <strong>Members {'=>'}</strong> {props.members.join(", ")}
-        </p>
+        {props.members.length > 0 && <p className="project-members">
+          <strong>Members:</strong> {props.members.join(", ")}
+        </p>}
         {/* <Button variant="primary">Open Project</Button> */}
       </Card.Body>
     </Card>
