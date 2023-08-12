@@ -39,6 +39,9 @@ function EditProject() {
 
   async function handleUpdate(e) {
     e.preventDefault();
+    if (!formData.member.email) {
+      delete formData.member;
+    }
     try {
       await axios.put(
         `http://13.48.5.194:8000/api/v1/projects/${projectData.id}`,
@@ -55,6 +58,21 @@ function EditProject() {
     }
   }
 
+  async function handleDelete() {
+    try {
+    await axios.delete(`http://13.48.5.194:8000/api/v1/projects/${projectData.id}`)
+    console.log(`Project ${projectData.name} deleted successfully`);
+    navigate('/projects/dashboard', {
+      state: {
+          prev: location.pathname,
+          action: "Delete"
+      }
+    });
+    } catch (error) {
+      console.log(error.response?.data?.Error || "An error occurred!!");
+    }
+  }
+
   return (
     <Container className="py-5 position-relative">
       <div
@@ -63,7 +81,7 @@ function EditProject() {
       >
         <FaTrash
           size={20}
-          // onClick={handleDelete}
+          onClick={handleDelete}
         />
         <p>Delete Project</p>
       </div>
@@ -109,7 +127,6 @@ function EditProject() {
                     },
                   }))
                 }
-                required
                 style={{ border: "1.5px solid" }}
               />
             </Col>
