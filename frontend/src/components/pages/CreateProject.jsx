@@ -62,7 +62,7 @@ function CreateProject() {
         <h2 className="mb-4 text-primary">Create Project</h2>
         {error && <Alert variant="danger">{error}</Alert>}
         {pending && <Alert variant="info">Creating your project...</Alert>}
-        <Form.Group className="mb-3" controlId="name">
+        <Form.Group className="mb-3 text-start" controlId="name">
           <Form.Label>Project Name</Form.Label>
           <Form.Control
             type="text"
@@ -73,7 +73,7 @@ function CreateProject() {
             style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="description">
+        <Form.Group className="mb-3 text-start  " controlId="description">
           <Form.Label>Project Description</Form.Label>
           <Form.Control
             as="textarea"

@@ -72,13 +72,13 @@ function SignUp() {
 
   return (
     <Container className="p-5">
-      <Form onSubmit={handleSubmit}>
-        <h2 className="mb-4">Sign Up</h2>
+      <Form className="w-75 mx-auto" onSubmit={handleSubmit}>
+        <h2 className="mb-4 text-primary">Sign Up</h2>
 
         {error && <Alert variant="danger">{error}</Alert>}
         {pending && <Alert variant="info">Creating your account...</Alert>}
 
-        <Form.Group className="mb-3" controlId="name">
+        <Form.Group className="mb-3 text-start" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
@@ -86,9 +86,10 @@ function SignUp() {
             value={formData.name}
             onChange={handleInputChange}
             required
+            style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
+        <Form.Group className="mb-3 text-start" controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
@@ -96,9 +97,10 @@ function SignUp() {
             value={formData.email}
             onChange={handleInputChange}
             required
+            style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className="mb-3 text-start" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -106,9 +108,10 @@ function SignUp() {
             value={formData.password}
             onChange={handleInputChange}
             required
+            style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="confirmPassword">
+        <Form.Group className="mb-3 text-start" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
@@ -116,9 +119,10 @@ function SignUp() {
             value={formData.confirmPassword}
             onChange={handleInputChange}
             required
+            style={{ border: "1.5px solid" }}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="w-50">
           {pending ? "Signing up..." : "Sign Up"}
         </Button>
       </Form>

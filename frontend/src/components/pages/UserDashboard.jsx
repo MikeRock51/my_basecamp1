@@ -61,7 +61,7 @@ function UserDashboard() {
       <Tab.Container id="dashboard-tabs" defaultActiveKey="allProjects">
         <Row className="mt-4">
           <Col md={2}>
-            <Nav variant="pills" className="flex-column">
+            <Nav variant="pills" className="flex-column mb-3">
               <Nav.Item>
                 <Nav.Link eventKey="allProjects">All Projects</Nav.Link>
               </Nav.Item>
