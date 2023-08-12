@@ -92,7 +92,7 @@ def fetchUserProjects(user_id):
 
     for project in projects.values():
         if project.creatorId == user_id:
-            userProjects.append(project)
+            userProjects.append(project.toDict())
 
     return make_response(jsonify(userProjects), 200)
 
