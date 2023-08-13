@@ -110,6 +110,7 @@ function UserDashboard() {
                       author={project.author}
                       members={project.members.map((member) => member.email)}
                       admin={true}
+                      id={project.id}
                     />
                   ))}
               </Tab.Pane>
@@ -123,6 +124,7 @@ function UserDashboard() {
                       author={project.author}
                       members={project.members.map((member) => member.email)}
                       admin={project.members.map((member) => member.isAdmin)[0]}
+                      id={project.id}
                     />
                   ))}
               </Tab.Pane>
