@@ -37,7 +37,7 @@ def updateProject(project_id):
 
     if not projectData:
         return make_response(jsonify({"Error": "Not a valid JSON"}), 400)
-    
+ 
     project = storage.get(Project, project_id)
 
     if not project:
@@ -50,6 +50,9 @@ def updateProject(project_id):
             setattr(project, field, value)
     
     if "member" in projectData:
+        member = storage.getByEmail(projectData['member']['email'])
+        if not member:
+            return jsonify({"Error": "No user with this email"}), 404
         newMember = Member(**projectData['member'])
         project.members.append(newMember)
 
