@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
 import Switch from "react-switch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
@@ -9,6 +9,7 @@ function EditProject() {
   const location = useLocation();
   const navigate = useNavigate();
   const projectData = location.state.projectData;
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     name: projectData.name,
@@ -47,29 +48,33 @@ function EditProject() {
         `http://13.48.5.194:8000/api/v1/projects/${projectData.id}`,
         formData
       );
-      navigate('/projects/dashboard', {
+      navigate("/projects/dashboard", {
         state: {
-            prev: location.pathname,
-            action: "Update"
-        }
+          prev: location.pathname,
+          action: "Update",
+        },
       });
     } catch (error) {
-        console.log(error.response?.data?.Error || "An error occurred!");
+      console.log(error.response?.data?.Error || "An error occurred!");
+      setError(error.response?.data?.Error);
     }
   }
 
   async function handleDelete() {
     try {
-    await axios.delete(`http://13.48.5.194:8000/api/v1/projects/${projectData.id}`)
-    console.log(`Project ${projectData.name} deleted successfully`);
-    navigate('/projects/dashboard', {
-      state: {
+      await axios.delete(
+        `http://13.48.5.194:8000/api/v1/projects/${projectData.id}`
+      );
+      console.log(`Project ${projectData.name} deleted successfully`);
+      navigate("/projects/dashboard", {
+        state: {
           prev: location.pathname,
-          action: "Delete"
-      }
-    });
+          action: "Delete",
+        },
+      });
     } catch (error) {
       console.log(error.response?.data?.Error || "An error occurred!!");
+      setError(error.response?.data?.Error);
     }
   }
 
@@ -79,13 +84,15 @@ function EditProject() {
         className="position-absolute top-0 end-0 m-3 text-danger"
         style={{ cursor: "pointer" }}
       >
-        <FaTrash
-          size={20}
-          onClick={handleDelete}
-        />
+        <FaTrash size={20} onClick={handleDelete} />
         <p>Delete Project</p>
       </div>
       <h2 className="mb-4 text-primary">Edit Project</h2>
+      {error && (
+        <Alert className="w-50 mx-auto" variant="danger">
+          {error}
+        </Alert>
+      )}
       <Form className="w-75 mx-auto" onSubmit={handleUpdate}>
         <Form.Group className="text-start" controlId="name">
           <Form.Label>Name</Form.Label>

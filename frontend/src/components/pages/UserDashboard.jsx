@@ -29,7 +29,7 @@ function UserDashboard() {
   useEffect(() => {
     fetchProjects();
     setAllProjects([...userProjects, ...sharedProjects]);
-  }, [userProjects, sharedProjects]);
+  }, []);
 
   return (
     <Container fluid>
